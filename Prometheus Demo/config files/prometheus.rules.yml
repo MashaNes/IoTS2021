@@ -1,0 +1,24 @@
+groups:
+- name: cpu-node
+  rules:
+  - record: job_instance_mode:process_cpu_seconds:avg_rate5m
+    expr: avg by (job, instance, mode) (rate(process_cpu_seconds_total[5m]))
+  - record: job:process_cpu_seconds:rate5m
+    expr: sum without(instance)(rate(process_cpu_seconds_total{job="node"}[5m]))
+  - record: job_device:windows_logical_disk_read_bytes:rate5m
+    expr: sum without(instance)(rate(windows_logical_disk_read_bytes_total{job="node"}[5m]))
+  - record: job:node_disk_read_bytes:rate5m
+    expr: sum without(device)(job_device:windows_logical_disk_read_bytes:rate5m{job="node"})
+
+- name: alerting
+  rules:
+  - alert: InstanceDown
+    expr: up == 0
+    for: 1m
+  - alert: ManyInstancesDown
+    expr: >
+      (
+          avg without(instance)(up{job="node"}) < 0.5
+        and on()
+          hour() > 9 < 17
+      )
