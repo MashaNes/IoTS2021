@@ -4,6 +4,13 @@ import time
 import unittest
 from prometheus_client import start_http_server, Counter, Gauge, Summary, Histogram, REGISTRY
 
+version_info = {
+    "implementation": "CPython",
+    "major": "3",
+    "minor": "5",
+    "patchlevel": "2",
+    "version": "3.5.2"
+}
 
 REQUESTS = Counter('hello_worlds_total', 'Hello Worlds requested.', labelnames=['path', 'method'])
 EXCEPTIONS = Counter('hello_world_exceptions_total', 'Exceptions serving Hello World.')
@@ -12,8 +19,10 @@ INPROGRESS = Gauge('hello_worlds_inprogress', 'Number of Hello Worlds in progres
 LAST = Gauge('hello_world_last_time_seconds', 'The last time a Hello World was served.')
 LATENCY = Summary('hello_world_latency_seconds', 'Time for a request Hello World.')
 LATENCYH = Histogram('hello_world_latency_histogram_seconds', 'Time for a request Hello World.',
-                     buckets=[0.1 * 2**x for x in range(1, 10)])
+                     buckets=[0.0001 * 2**x for x in range(1, 10)])
 FOOS = Counter('foos_total', 'Number of foo calls.')
+INFO = Gauge("my_python_info", "Python platform information", labelnames=version_info.keys())
+INFO.labels(**version_info).set(1)
 
 
 def foo():
@@ -38,6 +47,7 @@ class MyHandler(http.server.BaseHTTPRequestHandler):
         REQUESTS.labels(self.path, self.command).inc()
         INPROGRESS.inc()
         with EXCEPTIONS.count_exceptions():
+            # Code which may raise an exception
             if random.random() < 0.2:
                 INPROGRESS.dec()
                 raise Exception
