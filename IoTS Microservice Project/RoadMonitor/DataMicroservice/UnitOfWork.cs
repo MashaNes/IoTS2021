@@ -16,7 +16,7 @@ namespace DataMicroservice
             {
                 if(this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("127.0.0.1").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").Build();
                     this._cassandraSession = cluster.Connect("road_data");
                 }
 

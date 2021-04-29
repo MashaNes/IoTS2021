@@ -9,8 +9,8 @@ import flask
 import multiprocessing
 import requests
 
-data_microservice_location = "localhost"
-data_microservice_port = "49262"
+data_microservice_location = "192.168.0.26"  # localhost
+data_microservice_port = "49161"  # 49262
 
 sensorType = "road_air_temp"
 defaultSampleTime = 60
