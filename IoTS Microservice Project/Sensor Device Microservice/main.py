@@ -84,7 +84,7 @@ def send_data(record_data):
 def background():
     last_value = None
 
-    filename = "road-weather-information-station5.csv"
+    filename = "road-weather-information-station.csv"
     n = sum(1 for line in open(filename)) - 1
     s = 1
 
