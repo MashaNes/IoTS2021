@@ -9,6 +9,9 @@ import flask
 import multiprocessing
 import requests
 
+data_microservice_location = "localhost"
+data_microservice_port = "49262"
+
 sensorType = "road_air_temp"
 defaultSampleTime = 60
 defaultThresh = False
@@ -69,7 +72,8 @@ class RoadData:
 
 
 def send_data(record_data):
-    url = "http://localhost:49262/api/road_air_temp/add-data"
+    url = "http://" + data_microservice_location + ":" + data_microservice_port \
+          + "/api/" + metadata["sensorType"] + "/add-data"
     values = record_data.__dict__
     headers = {"Content-type": "application/json"}
     r = requests.post(url, json=values, headers=headers)
@@ -80,7 +84,7 @@ def send_data(record_data):
 def background():
     last_value = None
 
-    filename = "road-weather-information-station.csv"
+    filename = "road-weather-information-station5.csv"
     n = sum(1 for line in open(filename)) - 1
     s = 1
 
