@@ -9,5 +9,6 @@ namespace DataMicroservice.Contracts
     public interface ITempService
     {
         Task<bool> AddData(RoadAndAirTempData newData);
+        Task<List<RoadAndAirTempData>> GetAllData();
     }
 }

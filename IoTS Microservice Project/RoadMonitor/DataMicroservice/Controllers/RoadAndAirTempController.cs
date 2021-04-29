@@ -27,5 +27,13 @@ namespace DataMicroservice.Controllers
             await _tempService.AddData(roadData);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("get-data")]
+        public async Task<ActionResult> GetData()
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetAllData();
+            return Ok(retVal);
+        }
     }
 }
