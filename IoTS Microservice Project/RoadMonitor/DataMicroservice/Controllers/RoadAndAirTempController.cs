@@ -35,5 +35,21 @@ namespace DataMicroservice.Controllers
             List<RoadAndAirTempData> retVal = await _tempService.GetAllData();
             return Ok(retVal);
         }
+
+        [HttpGet]
+        [Route("get-data-recordId/{RecordId}")]
+        public async Task<ActionResult> GetData(int RecordId)
+        {
+            RoadAndAirTempData retVal = await _tempService.GetDataByRecordId(RecordId);
+            return Ok(retVal);
+        }
+
+        [HttpGet]
+        [Route("get-data-station/{StationName}")]
+        public async Task<ActionResult> GetData(String StationName)
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataByStationName(StationName);
+            return Ok(retVal);
+        }
     }
 }

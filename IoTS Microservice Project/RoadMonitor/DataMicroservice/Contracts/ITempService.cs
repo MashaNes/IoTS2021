@@ -10,5 +10,7 @@ namespace DataMicroservice.Contracts
     {
         Task<bool> AddData(RoadAndAirTempData newData);
         Task<List<RoadAndAirTempData>> GetAllData();
+        Task<RoadAndAirTempData> GetDataByRecordId(int recordId);
+        Task<List<RoadAndAirTempData>> GetDataByStationName(String StationName);
     }
 }
