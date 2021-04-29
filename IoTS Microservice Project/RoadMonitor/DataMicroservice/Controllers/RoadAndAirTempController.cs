@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DataMicroservice.Entities;
 using DataMicroservice.Contracts;
+using DataMicroservice.DTOs;
 
 namespace DataMicroservice.Controllers
 {
@@ -45,10 +46,26 @@ namespace DataMicroservice.Controllers
         }
 
         [HttpGet]
-        [Route("get-data-station/{StationName}")]
-        public async Task<ActionResult> GetData(String StationName)
+        [Route("get-data-station/{StationName}/{Newest}")]
+        public async Task<ActionResult> GetDataStation(String StationName, bool Newest)
         {
-            List<RoadAndAirTempData> retVal = await _tempService.GetDataByStationName(StationName);
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataByStationName(StationName, Newest);
+            return Ok(retVal);
+        }
+
+        [HttpPost]
+        [Route("get-data-timeframe")]
+        public async Task<ActionResult> GetDataTimeframe([FromBody]TimeframeDTO timeframe)
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataByTimestamp(timeframe.StationName, timeframe.ReferentTime, timeframe.TimeframeSeconds);
+            return Ok(retVal);
+        }
+
+        [HttpPost]
+        [Route("get-data-location")]
+        public async Task<ActionResult> GetDataLocation([FromBody] LocationRadiusDTO locationRadius)
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetDataLocation(locationRadius);
             return Ok(retVal);
         }
     }

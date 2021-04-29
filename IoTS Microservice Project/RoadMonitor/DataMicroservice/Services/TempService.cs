@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using DataMicroservice.Contracts;
 using DataMicroservice.Entities;
 using Cassandra;
+using DataMicroservice.DTOs;
+using Geolocation;
 
 namespace DataMicroservice.Services
 {
@@ -47,16 +49,78 @@ namespace DataMicroservice.Services
             return ConvertCassandraRow(result);
         }
 
-        public async Task<List<RoadAndAirTempData>> GetDataByStationName(String StationName)
+        public async Task<List<RoadAndAirTempData>> GetDataByStationName(String StationName, bool Newest)
         {
             List<RoadAndAirTempData> retList = new List<RoadAndAirTempData>();
 
             var data = _unitOfWork.CassandraSession.Execute("select * from temp_condition where \"StationName\"='" + StationName + "' ALLOW FILTERING");
 
+            RoadAndAirTempData newestInfo = null;
+
+            foreach (var instance in data)
+            {
+                RoadAndAirTempData roadData = ConvertCassandraRow(instance);
+                
+                if(!Newest)
+                    retList.Add(roadData);
+                else if (newestInfo == null || roadData.Timestamp > newestInfo.Timestamp)
+                    newestInfo = roadData;
+            }
+
+            if (Newest)
+                retList.Add(newestInfo);
+
+            return retList;
+        }
+
+        public async Task<List<RoadAndAirTempData>> GetDataByTimestamp(String StationName, DateTime time, int seconds)
+        {
+            if (StationName == null)
+                StationName = "";
+            else
+                StationName = "and \"StationName\"='" + StationName + "' ";
+
+            DateTime low = time.AddSeconds(-seconds);
+            DateTime high = time.AddSeconds(seconds);
+
+            List<RoadAndAirTempData> retList = new List<RoadAndAirTempData>();
+
+            var data = _unitOfWork.CassandraSession.Execute("select * from temp_condition where \"Timestamp\" > '" + ConvertDateToString(low)
+                     + "' and \"Timestamp\" < '" + ConvertDateToString(high) + "' "+ StationName + "ALLOW FILTERING");
+
             foreach (var instance in data)
             {
                 retList.Add(ConvertCassandraRow(instance));
             }
+
+            return retList;
+        }
+
+        public async Task<List<RoadAndAirTempData>> GetDataLocation(LocationRadiusDTO locationInfo)
+        {
+            List<RoadAndAirTempData> retList = new List<RoadAndAirTempData>();
+
+            Coordinate center = new Coordinate(locationInfo.CenterLatitude, locationInfo.CenterLongitude);
+
+            var data = _unitOfWork.CassandraSession.Execute("select * from temp_condition");
+            RoadAndAirTempData newest = null;
+
+            foreach (var instance in data)
+            {
+                RoadAndAirTempData roadData = ConvertCassandraRow(instance);
+                Coordinate point = new Coordinate(roadData.Latitude, roadData.Longitude);
+                double distance = GeoCalculator.GetDistance(center, point, 3, DistanceUnit.Meters);
+                if(distance <= locationInfo.RadiusMeters)
+                {
+                    if (!locationInfo.Newest)
+                        retList.Add(roadData);
+                    else if (newest == null || newest.Timestamp < roadData.Timestamp)
+                        newest = roadData;
+                }
+            }
+
+            if (locationInfo.Newest)
+                retList.Add(newest);
 
             return retList;
         }
