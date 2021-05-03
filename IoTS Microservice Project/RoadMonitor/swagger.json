@@ -1,0 +1,245 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "DataMicroservice",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/road_air_temp/add-data": {
+      "post": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoadAndAirTempData"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoadAndAirTempData"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoadAndAirTempData"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/road_air_temp/get-data": {
+      "get": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/road_air_temp/get-data-recordId/{RecordId}": {
+      "get": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "parameters": [
+          {
+            "name": "RecordId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/road_air_temp/get-data-station/{StationName}/{Newest}": {
+      "get": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "parameters": [
+          {
+            "name": "StationName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "Newest",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/road_air_temp/get-data-timeframe": {
+      "post": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TimeframeDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/road_air_temp/get-data-location": {
+      "post": {
+        "tags": [
+          "RoadAndAirTemp"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationRadiusDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "RoadAndAirTempData": {
+        "type": "object",
+        "properties": {
+          "RecordId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "AirTemperature": {
+            "type": "number",
+            "format": "double"
+          },
+          "RoadTemperature": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeframeDTO": {
+        "type": "object",
+        "properties": {
+          "TimeframeSeconds": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "ReferentTime": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LocationRadiusDTO": {
+        "type": "object",
+        "properties": {
+          "CenterLatitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "CenterLongitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "RadiusMeters": {
+            "type": "number",
+            "format": "double"
+          },
+          "Newest": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
