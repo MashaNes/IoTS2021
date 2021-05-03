@@ -1,0 +1,164 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Sensor Device Microservice",
+    "description" : "Data acqusition microservice",
+    "version" : "0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5000"
+  } ],
+  "paths" : {
+    "/no-thresholding" : {
+      "put" : {
+        "description" : "Turns off thresholding. Data is now being sent every time it is collected.",
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":60,\"sensorType\":\"road_air_temp\",\"threshold\":0.2,\"thresholding\":false}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:5000"
+      } ]
+    },
+    "/set-thresholding" : {
+      "put" : {
+        "description" : "Turns on thresholding. Data is now being sent only if the difference between the collected value and the last sent value is greater than the provided percentage.",
+        "parameters" : [ {
+          "name" : "threshold",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "0.2"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":60,\"sensorType\":\"road_air_temp\",\"threshold\":0.2,\"thresholding\":true}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:5000"
+      } ]
+    },
+    "/get-metadata" : {
+      "get" : {
+        "description" : "Gets current metadata.",
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":60,\"sensorType\":\"road_air_temp\",\"threshold\":0.1,\"thresholding\":false}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:5000"
+      } ]
+    },
+    "/change-sample-time-seconds" : {
+      "put" : {
+        "description" : "Changes the sampling rate. Data is now being colleced every 'sample-time' seconds",
+        "parameters" : [ {
+          "name" : "sample-time",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "120"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":120.0,\"sensorType\":\"road_air_temp\",\"threshold\":0.2,\"thresholding\":false}\n"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "servers" : [ {
+          "url" : "http://localhost:5000"
+        } ]
+      },
+      "servers" : [ {
+        "url" : "http://localhost:5000"
+      } ]
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Metadata" : {
+        "type" : "object",
+        "properties" : {
+          "thresholding" : {
+            "type" : "boolean"
+          },
+          "sensorType" : {
+            "type" : "string"
+          },
+          "threshold" : {
+            "type" : "number",
+            "format" : "double"
+          },
+          "sampleTime" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        }
+      }
+    }
+  }
+}
