@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  datamicroservice:
+    image: ${DOCKER_REGISTRY-}datamicroservice
+    build:
+      context: .
+      dockerfile: DataMicroservice/Dockerfile
+    ports: 
+      - "49158:80"
+  cassandra:
+    image: cassandra
+    ports:
+      - "9160:9160"
+      - "9042:9042"
+  python-sensor:
+    build: "C:/File system/Fakultet/8. semestar/Servisno orijentisane arhitekture/Projekat repo/Python docker/python-sensor"
+    ports:
+      - "5000:5000"
+  python-sensor1:
+    build: "C:/File system/Fakultet/8. semestar/Servisno orijentisane arhitekture/Projekat repo/Python docker/python-sensor1"
+    ports:
+      - "5001:5000"
+  python-sensor2:
+    build: "C:/File system/Fakultet/8. semestar/Servisno orijentisane arhitekture/Projekat repo/Python docker/python-sensor2"
+    ports:
+      - "5002:5000"
