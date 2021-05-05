@@ -78,9 +78,9 @@ class DataAcquisition:
                     last_value = road_data
                     self.send_data(road_data)
                 elif abs(last_value.roadTemperature - road_data.roadTemperature) \
-                        < self.metadata.get_metadata()["threshold"] * last_value.roadTemperature \
+                        > self.metadata.get_metadata()["threshold"] * last_value.roadTemperature \
                         and abs(last_value.airTemperature - road_data.airTemperature) \
-                        < self.metadata.get_metadata()["threshold"] * last_value.airTemperature:
+                        > self.metadata.get_metadata()["threshold"] * last_value.airTemperature:
                     last_value = road_data
                     self.send_data(road_data)
             time.sleep(self.metadata.get_metadata()["sampleTime"])
