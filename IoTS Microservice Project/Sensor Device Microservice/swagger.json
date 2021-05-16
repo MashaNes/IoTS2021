@@ -7,6 +7,10 @@
   },
   "servers" : [ {
     "url" : "http://localhost:5000"
+  }, {
+    "url" : "http://localhost:5001"
+  }, {
+    "url" : "http://localhost:5002"
   } ],
   "paths" : {
     "/no-thresholding" : {
@@ -28,14 +32,8 @@
               }
             }
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:5000"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:5000"
-      } ]
+        }
+      }
     },
     "/set-thresholding" : {
       "put" : {
@@ -64,14 +62,8 @@
               }
             }
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:5000"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:5000"
-      } ]
+        }
+      }
     },
     "/get-metadata" : {
       "get" : {
@@ -92,14 +84,8 @@
               }
             }
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:5000"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:5000"
-      } ]
+        }
+      }
     },
     "/change-sample-time-seconds" : {
       "put" : {
@@ -128,14 +114,8 @@
               }
             }
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:5000"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:5000"
-      } ]
+        }
+      }
     }
   },
   "components" : {
