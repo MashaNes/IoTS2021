@@ -17,7 +17,7 @@ namespace DataMicroservice
             {
                 if(this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-data").Build();
                     this._cassandraSession = cluster.Connect("road_data");
                 }
 
@@ -59,15 +59,6 @@ namespace DataMicroservice
             get
             {
                 return this._temperatureTable;
-            }
-        }
-
-        private string _airQualityTable = "air_condition";
-        public string AirQualityTable
-        {
-            get
-            {
-                return this._airQualityTable;
             }
         }
 

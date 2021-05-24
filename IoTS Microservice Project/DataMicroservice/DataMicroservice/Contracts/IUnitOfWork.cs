@@ -12,7 +12,6 @@ namespace DataMicroservice.Contracts
         ISession CassandraSession { get; }
         IModel RabbitMQChannel { get; }
         string TemperatureTable { get; }
-        string AirQualityTable { get; }
         string RabbitMQQueue { get; }
     }
 }

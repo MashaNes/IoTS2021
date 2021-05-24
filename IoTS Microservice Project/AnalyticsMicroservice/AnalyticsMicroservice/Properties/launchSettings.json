@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AnalyticsMicroservice": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}
