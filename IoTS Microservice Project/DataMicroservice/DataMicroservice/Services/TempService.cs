@@ -15,17 +15,20 @@ namespace DataMicroservice.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICassandraService _cassandraService;
         private readonly IGeolocationService _geolocationService;
+        private readonly IMessageService _messageService;
 
-        public TempService(IUnitOfWork unitOfWork, ICassandraService cassandraService, IGeolocationService geolocationService)
+        public TempService(IUnitOfWork unitOfWork, ICassandraService cassandraService, IGeolocationService geolocationService, IMessageService messageService)
         {
             this._unitOfWork = unitOfWork;
             this._cassandraService = cassandraService;
             this._geolocationService = geolocationService;
+            this._messageService = messageService;
         }
 
         public async Task<bool> AddData(RoadAndAirTempData newData)
         {
-            var response = _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TemperatureTable, newData));
+            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TemperatureTable, newData));
+            _messageService.Enqueue(newData);
             return true;
         }
 

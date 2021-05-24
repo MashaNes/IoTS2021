@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Cassandra;
 using DataMicroservice.Contracts;
+using RabbitMQ.Client;
 
 namespace DataMicroservice
 {
@@ -24,6 +25,34 @@ namespace DataMicroservice
             }
         }
 
+        private IModel _rabbitMQChannel;
+        public IModel RabbitMQChannel
+        {
+            get
+            {
+                if(this._rabbitMQChannel == null)
+                {
+                    ConnectionFactory factory = new ConnectionFactory()
+                    {
+                        HostName = "rabbitmq",
+                        Port = 5672,
+                        UserName = "guest",
+                        Password = "guest"
+                    };
+
+                    IConnection connection = factory.CreateConnection();
+                    this._rabbitMQChannel = connection.CreateModel();
+                    this._rabbitMQChannel.QueueDeclare(queue: this.RabbitMQQueue,
+                                                       durable: false,
+                                                       exclusive: false,
+                                                       autoDelete: false,
+                                                       arguments: null);
+                }
+
+                return this._rabbitMQChannel;
+            }
+        }
+
         private string _temperatureTable = "temp_condition";
         public string TemperatureTable
         {
@@ -39,6 +68,15 @@ namespace DataMicroservice
             get
             {
                 return this._airQualityTable;
+            }
+        }
+
+        private string _rabbitMQQueue = "temp_data";
+        public string RabbitMQQueue
+        {
+            get
+            {
+                return this._rabbitMQQueue;
             }
         }
     }
