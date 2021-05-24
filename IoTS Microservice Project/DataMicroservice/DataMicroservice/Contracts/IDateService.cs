@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Cassandra;
 
 namespace DataMicroservice.Contracts
 {
-    public interface IUnitOfWork
+    public interface IDateService
     {
-        ISession CassandraSession { get; }
+        String ConvertDateToString(DateTime date);
     }
 }

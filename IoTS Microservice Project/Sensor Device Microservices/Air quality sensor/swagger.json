@@ -1,0 +1,89 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Air quality sensor",
+    "description" : "Air quality data acqusition microservice",
+    "version" : "0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5011"
+  }, {
+    "url" : "http://localhost:5012"
+  }, {
+    "url" : "http://localhost:5013"
+  }, {
+    "url" : "http://localhost:5014"
+  }, {
+    "url" : "http://localhost:5015"
+  } ],
+  "paths" : {
+    "/get-metadata" : {
+      "get" : {
+        "description" : "Gets current metadata.",
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":60,\"sensorType\":\"air_quality\"}\n"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/change-sample-time-seconds" : {
+      "put" : {
+        "description" : "Changes the sampling rate. Data is now being colleced every 'sample-time' seconds",
+        "parameters" : [ {
+          "name" : "sample-time",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "120"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Current metadata.",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Metadata"
+                },
+                "examples" : {
+                  "0" : {
+                    "value" : "{\"sampleTime\":120.0,\"sensorType\":\"air_quality\"}\n"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Metadata" : {
+        "type" : "object",
+        "properties" : {
+          "sensorType" : {
+            "type" : "string"
+          },
+          "sampleTime" : {
+            "type" : "number",
+            "format" : "double"
+          }
+        }
+      }
+    }
+  }
+}

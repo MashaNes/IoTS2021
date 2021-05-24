@@ -30,6 +30,9 @@ namespace DataMicroservice
         {
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<ITempService, TempService>();
+            services.AddTransient<ICassandraService, CassandraService>();
+            services.AddTransient<IGeolocationService, GeolocationService>();
+            services.AddTransient<IDateService, DateService>();
             services.AddControllers();
             services.AddCors(options =>
             {

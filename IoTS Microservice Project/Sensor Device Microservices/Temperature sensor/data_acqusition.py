@@ -6,7 +6,7 @@ import pandas
 import ast
 
 data_microservice_location = "192.168.0.26"  # localhost
-data_microservice_port = "49158"  # 49262
+data_microservice_port = "49164"  # 49262
 
 
 def two_digit_representation(value):
@@ -62,6 +62,8 @@ class DataAcquisition:
         filename = "road-weather-information-station.csv"
         n = sum(1 for line in open(filename)) - 1
         s = 1
+        
+        time.sleep(10)
 
         while True:
             skip = sorted(random.sample(range(1, n + 1), n - s))

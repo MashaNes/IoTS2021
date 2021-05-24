@@ -23,5 +23,23 @@ namespace DataMicroservice
                 return _cassandraSession;
             }
         }
+
+        private string _temperatureTable = "temp_condition";
+        public string TemperatureTable
+        {
+            get
+            {
+                return this._temperatureTable;
+            }
+        }
+
+        private string _airQualityTable = "air_condition";
+        public string AirQualityTable
+        {
+            get
+            {
+                return this._airQualityTable;
+            }
+        }
     }
 }
