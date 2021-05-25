@@ -1,0 +1,49 @@
+version: "3.9"
+services:
+  datamicroservice:
+    image: ${DOCKER_REGISTRY-}datamicroservice
+    build:
+      context: "IoTS2021/IoTS Microservice Project/DataMicroservice"
+      dockerfile: DataMicroservice/Dockerfile
+    ports:
+      - "49164:80"
+    hostname: "datamicroservice"
+  temp-sensor1:
+    build: "Python docker/python-sensor-temp/python-sensor-temp-1"
+    ports:
+      - "5021:5000"
+  temp-sensor2:
+    build: "Python docker/python-sensor-temp/python-sensor-temp-2"
+    ports:
+      - "5022:5000"
+  temp-sensor3:
+    build: "Python docker/python-sensor-temp/python-sensor-temp-3"
+    ports:
+      - "5023:5000"
+  cassandra-data:
+    image: cassandra
+    hostname: "cassandra-data"
+    ports:
+      - "9042:9042"
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: "rabbitmq"
+    labels:
+      NAME: "rabbitmq"
+    ports:
+    - "4369:4369"
+    - "5671:5671"
+    - "5672:5672"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
+  cassandra-analytics:
+    image: cassandra
+    hostname: "cassandra-analytics"
+    ports:
+      - "9045:9042"
+  analyticsmicroservice:
+    image: ${DOCKER_REGISTRY-}analyticsmicroservice
+    build:
+      context: "IoTS2021/IoTS Microservice Project/AnalyticsMicroservice"
+      dockerfile: AnalyticsMicroservice/Dockerfile

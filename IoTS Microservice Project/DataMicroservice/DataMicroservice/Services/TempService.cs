@@ -27,9 +27,16 @@ namespace DataMicroservice.Services
 
         public async Task<bool> AddData(RoadAndAirTempData newData)
         {
+            newData.RoadTemperature = convertTempFtoC(newData.RoadTemperature);
+            newData.AirTemperature = convertTempFtoC(newData.AirTemperature);
             _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TemperatureTable, newData));
             _messageService.Enqueue(newData);
             return true;
+        }
+
+        private double convertTempFtoC(double tempInF)
+        {
+            return (tempInF - 32) / (double)1.8;
         }
 
         public async Task<List<RoadAndAirTempData>> GetAllData()
