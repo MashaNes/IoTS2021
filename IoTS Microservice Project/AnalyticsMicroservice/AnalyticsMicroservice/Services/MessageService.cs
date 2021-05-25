@@ -1,8 +1,9 @@
 ﻿using System.Text;
 using AnalyticsMicroservice.Contracts;
 using System.Text.Json;
+using AnalyticsMicroservice.Entities;
 
-namespace AnalyticsMicroservice.Entities
+namespace AnalyticsMicroservice.Services
 {
     public class MessageService : IMessageService
     {

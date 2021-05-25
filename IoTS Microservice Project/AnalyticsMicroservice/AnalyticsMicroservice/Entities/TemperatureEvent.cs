@@ -7,14 +7,14 @@ namespace AnalyticsMicroservice.Entities
     public enum DataInfluenced
     {
         RoadTemperature,
-        AirTemperature,
-        Both
+        AirTemperature
     }
 
     public enum EventType
     {
         HotAlert,
         ColdAlert,
+        TempNormalized,
         TempDropAlert,
         TempRiseAlert
     }

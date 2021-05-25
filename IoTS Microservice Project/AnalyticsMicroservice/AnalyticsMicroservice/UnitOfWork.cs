@@ -16,7 +16,7 @@ namespace AnalyticsMicroservice
             {
                 if (this._cassandraSession == null)
                 {
-                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-analytics").Build();
+                    Cluster cluster = Cluster.Builder().AddContactPoint("192.168.0.26").WithPort(9045).Build();
                     this._cassandraSession = cluster.Connect("event_data");
                 }
 
