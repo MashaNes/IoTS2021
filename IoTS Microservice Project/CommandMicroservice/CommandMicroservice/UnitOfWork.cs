@@ -22,7 +22,7 @@ namespace CommandMicroservice
                 {
                     ConnectionFactory factory = new ConnectionFactory()
                     {
-                        HostName = "192.168.0.26", //rabbitmq
+                        HostName = "rabbitmq",
                         Port = 5672,
                         UserName = "guest",
                         Password = "guest"

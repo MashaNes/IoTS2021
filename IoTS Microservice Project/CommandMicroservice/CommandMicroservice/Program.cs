@@ -16,7 +16,7 @@ namespace CommandMicroservice
     {
         public static void Main(string[] args)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(10));
+            Thread.Sleep(TimeSpan.FromSeconds(40));
             IUnitOfWork unitOfWork = new UnitOfWork();
             INotifyService notify = new NotifyService(unitOfWork);
             IConsumerService consumer = new ConsumerService(unitOfWork, notify);

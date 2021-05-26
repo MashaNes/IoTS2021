@@ -92,6 +92,6 @@ def adjust_tire_pressure():
     return actuation.get_parameters()
 
 
-time.sleep(15)
+time.sleep(100)
 registration.register(data_acquisition.get_station_name())
 app.run()

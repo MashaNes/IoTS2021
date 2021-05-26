@@ -1,9 +1,9 @@
 import requests
 
-command_microservice_location = "192.168.0.26"  # commandmicroservice
-command_microservice_port = "49155"  # 80
-my_location = "192.168.0.26"  # temp-sensor1
-my_port = "5021"  # 5000
+command_microservice_location = "commandmicroservice"
+command_microservice_port = "80"
+my_location = "temp-sensorX"
+my_port = "5000"
 
 
 class RegistrationData:
