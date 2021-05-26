@@ -5,8 +5,8 @@ import random
 import pandas
 import ast
 
-data_microservice_location = "192.168.0.26"  # localhost
-data_microservice_port = "49164"  # 49262
+data_microservice_location = "datamicroservice"  # localhost
+data_microservice_port = "80"  # 49262
 
 
 def two_digit_representation(value):
@@ -46,6 +46,9 @@ class RoadData:
 class DataAcquisition:
     def __init__(self, metadata):
         self.metadata = metadata
+        self.filename = "road-weather-information-station.csv"
+        self.n = sum(1 for line in open(self.filename)) - 1
+        self.s = 1
 
     def send_data(self, record_data):
         url = "http://" + data_microservice_location + ":" + data_microservice_port \
@@ -56,18 +59,18 @@ class DataAcquisition:
         print(r.status_code)
         print("Sending")
 
+    def get_station_name(self):
+        skip = sorted(random.sample(range(1, self.n + 1), self.n - self.s))
+        df = pandas.read_csv(self.filename, skiprows=skip)
+        return df.StationName.values[0]
+
     def acquisition(self):
         last_value = None
-
-        filename = "road-weather-information-station.csv"
-        n = sum(1 for line in open(filename)) - 1
-        s = 1
-        
         time.sleep(10)
 
         while True:
-            skip = sorted(random.sample(range(1, n + 1), n - s))
-            df = pandas.read_csv(filename, skiprows=skip)
+            skip = sorted(random.sample(range(1, self.n + 1), self.n - self.s))
+            df = pandas.read_csv(self.filename, skiprows=skip)
             road_data = RoadData(df.StationName.values[0],
                                  ast.literal_eval(df.StationLocation.values[0])['coordinates'],
                                  df.RecordId.values[0], df.RoadSurfaceTemperature.values[0],
