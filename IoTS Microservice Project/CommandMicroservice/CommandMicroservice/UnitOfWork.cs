@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.IO;
+using Cassandra;
 
 namespace CommandMicroservice
 {
@@ -41,6 +42,49 @@ namespace CommandMicroservice
             }
         }
 
+        private IModel _notificationChannel;
+        public IModel NotificationChannel
+        {
+            get
+            {
+                if (this._notificationChannel == null)
+                {
+                    ConnectionFactory factory = new ConnectionFactory()
+                    {
+                        HostName = "rabbitmq",
+                        Port = 5672,
+                        UserName = "guest",
+                        Password = "guest"
+                    };
+
+                    IConnection connection = factory.CreateConnection();
+                    this._notificationChannel = connection.CreateModel();
+                    this._notificationChannel.QueueDeclare(queue: this.NotificationQueue,
+                                                           durable: false,
+                                                           exclusive: false,
+                                                           autoDelete: false,
+                                                           arguments: null);
+                }
+
+                return this._notificationChannel;
+            }
+        }
+
+        private ISession _cassandraSession;
+        public ISession CassandraSession
+        {
+            get
+            {
+                if (this._cassandraSession == null)
+                {
+                    Cluster cluster = Cluster.Builder().AddContactPoint("cassandra-command").Build();
+                    this._cassandraSession = cluster.Connect("event_action_data");
+                }
+
+                return _cassandraSession;
+            }
+        }
+
         private HttpClient _httpClient;
         public HttpClient HttpClient
         {
@@ -64,6 +108,15 @@ namespace CommandMicroservice
             get
             {
                 return this._rabbitMQQueue;
+            }
+        }
+
+        private string _notificationQueue = "notifications";
+        public string NotificationQueue
+        {
+            get
+            {
+                return this._notificationQueue;
             }
         }
 
@@ -101,6 +154,15 @@ namespace CommandMicroservice
                 return null;
             }
             return null;
+        }
+
+        private string _cassandraTable = "events";
+        public string CassandraTable
+        {
+            get
+            {
+                return this._cassandraTable;
+            }
         }
 
         private string _tempNormalizationEndpoint = "normalized-temperature";

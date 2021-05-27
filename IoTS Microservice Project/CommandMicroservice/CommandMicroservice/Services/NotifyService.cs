@@ -11,38 +11,67 @@ namespace CommandMicroservice.Services
     public class NotifyService : INotifyService
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMessageService _messageService;
+        private readonly ICassandraService _cassandraService;
 
-        public NotifyService(IUnitOfWork unitOfWork)
+        public NotifyService(IUnitOfWork unitOfWork, IMessageService messageService, ICassandraService cassandraService)
         {
             this._unitOfWork = unitOfWork;
+            this._messageService = messageService;
+            this._cassandraService = cassandraService;
         }
 
         public async Task NotifyClient(TemperatureEvent Event)
         {
-            string clientLoc = _unitOfWork.GetClientLocation(Event.StationName);
-            if (clientLoc is not null)
+            string command = "";
+            EventCommand eventCommand = new EventCommand();
+            eventCommand.TemperatureEvent = Event;
+            eventCommand.ActuationCommand = new ActuationCommand();
+
+            if(Event.EventType == EventType.TempDropAlert || Event.EventType == EventType.TempRiseAlert)
             {
-                if(Event.EventType == EventType.TempDropAlert || Event.EventType == EventType.TempRiseAlert)
+                string loc = _unitOfWork.LocationParam + "='" + (Event.DataInfluenced == DataInfluenced.RoadTemperature ? "road" : "air") + "'";
+                string type = _unitOfWork.EventParam + "='" + (Event.EventType == EventType.TempRiseAlert ? "sudden temperature rise" : "sudden temperature fall") + "'";
+                command = _unitOfWork.DiagnosticsEndpoint + "?" + loc + "&" + type;
+                eventCommand.ActuationCommand.Command = _unitOfWork.DiagnosticsEndpoint;
+                eventCommand.ActuationCommand.AdditionalArguments.Add(loc);
+                eventCommand.ActuationCommand.AdditionalArguments.Add(type);
+            }
+            else if(Event.DataInfluenced == DataInfluenced.AirTemperature)
+            {
+                if (Event.EventType == EventType.TempNormalized)
                 {
-                    string loc = Event.DataInfluenced == DataInfluenced.RoadTemperature ? "road" : "air";
-                    string type = Event.EventType == EventType.TempRiseAlert ? "sudden temperature rise" : "sudden temperature fall";
-                    await sendCommand(clientLoc + _unitOfWork.DiagnosticsEndpoint + "?" + _unitOfWork.LocationParam + "='" + loc + "'&" + _unitOfWork.EventParam + "='" + type +"'");
+                    command = _unitOfWork.TempNormalizationEndpoint;
+                    eventCommand.ActuationCommand.Command = _unitOfWork.TempNormalizationEndpoint;
                 }
-                else if(Event.DataInfluenced == DataInfluenced.AirTemperature)
+                else if (Event.EventType == EventType.ColdAlert)
                 {
-                    if (Event.EventType == EventType.TempNormalized)
-                        await sendCommand(clientLoc + _unitOfWork.TempNormalizationEndpoint);
-                    else if (Event.EventType == EventType.ColdAlert)
-                        await sendCommand(clientLoc + _unitOfWork.HeatingEndpoint + "?" + _unitOfWork.TempParam + "=" + (20 - Event.Value));
-                    else if (Event.EventType == EventType.HotAlert)
-                        await sendCommand(clientLoc + _unitOfWork.CoolingEndpoint + "?" + _unitOfWork.TempParam + "=" + ((70 - Event.Value) / 2f));
+                    string temp = _unitOfWork.TempParam + "=" + (20 - Event.Value);
+                    command = _unitOfWork.HeatingEndpoint + "?" + temp;
+                    eventCommand.ActuationCommand.Command = _unitOfWork.HeatingEndpoint;
+                    eventCommand.ActuationCommand.AdditionalArguments.Add(temp);
                 }
-                else
+                else if (Event.EventType == EventType.HotAlert)
                 {
-                    int psi = Event.EventType == EventType.ColdAlert ? 40 : Event.EventType == EventType.HotAlert ? 32 : 36;
-                    await sendCommand(clientLoc + _unitOfWork.TirePressureEndpoint + "?" + _unitOfWork.PressureParam + "=" + psi);
+                    string temp = _unitOfWork.TempParam + "=" + ((70 - Event.Value) / 2f);
+                    command = _unitOfWork.CoolingEndpoint + "?" + temp;
+                    eventCommand.ActuationCommand.Command = _unitOfWork.CoolingEndpoint;
+                    eventCommand.ActuationCommand.AdditionalArguments.Add(temp);
                 }
             }
+            else
+            {
+                string psi = _unitOfWork.PressureParam + "=" + (Event.EventType == EventType.ColdAlert ? 40 : Event.EventType == EventType.HotAlert ? 32 : 36);
+                command = _unitOfWork.TirePressureEndpoint + "?" + psi;
+                eventCommand.ActuationCommand.Command = _unitOfWork.TirePressureEndpoint;
+                eventCommand.ActuationCommand.AdditionalArguments.Add(psi);
+            }
+
+            string clientLoc = _unitOfWork.GetClientLocation(Event.StationName);
+            if (clientLoc is not null)
+                await sendCommand(clientLoc + command);
+            _cassandraService.InsertData(eventCommand);
+            _messageService.Enqueue(eventCommand);
         }
 
         private async Task sendCommand(string url)

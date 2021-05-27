@@ -1,0 +1,148 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "CommandMicroservice",
+    "version": "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:49155"
+  } ],
+  "paths": {
+    "/api/event-command/get-filtered-data": {
+      "post": {
+        "tags": [
+          "EventCommand"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/registration/register-device": {
+      "post": {
+        "tags": [
+          "Registration"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationDataDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationDataDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegistrationDataDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TimeframeDTO": {
+        "type": "object",
+        "properties": {
+          "From": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "To": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "DataInfluenced": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventCommandFilterDTO": {
+        "type": "object",
+        "properties": {
+          "Timeframe": {
+            "$ref": "#/components/schemas/TimeframeDTO"
+          },
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "EventType": {
+            "$ref": "#/components/schemas/EventType"
+          },
+          "DataInfluenced": {
+            "$ref": "#/components/schemas/DataInfluenced"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RegistrationDataDTO": {
+        "type": "object",
+        "properties": {
+          "Host": {
+            "type": "string",
+            "nullable": true
+          },
+          "Port": {
+            "type": "string",
+            "nullable": true
+          },
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

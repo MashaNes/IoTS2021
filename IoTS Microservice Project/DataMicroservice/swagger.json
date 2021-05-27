@@ -5,7 +5,7 @@
     "version" : "v1"
   },
   "servers" : [ {
-    "url" : "http://localhost:49158"
+    "url" : "http://localhost:49164"
   } ],
   "paths" : {
     "/api/road_air_temp/add-data" : {
@@ -34,14 +34,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     },
     "/api/road_air_temp/get-data" : {
       "get" : {
@@ -50,14 +44,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     },
     "/api/road_air_temp/get-data-recordId/{RecordId}" : {
       "get" : {
@@ -75,14 +63,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     },
     "/api/road_air_temp/get-data-station/{StationName}/{Newest}" : {
       "get" : {
@@ -107,14 +89,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     },
     "/api/road_air_temp/get-data-timeframe" : {
       "post" : {
@@ -142,14 +118,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     },
     "/api/road_air_temp/get-data-location" : {
       "post" : {
@@ -177,14 +147,8 @@
           "200" : {
             "description" : "Success"
           }
-        },
-        "servers" : [ {
-          "url" : "http://localhost:49158"
-        } ]
-      },
-      "servers" : [ {
-        "url" : "http://localhost:49158"
-      } ]
+        }
+	  }
     }
   },
   "components" : {

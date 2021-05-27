@@ -48,13 +48,16 @@ services:
   cassandra-analytics:
     image: cassandra
     hostname: "cassandra-analytics"
-    ports:
-      - "9045:9042"
   analyticsmicroservice:
     image: ${DOCKER_REGISTRY-}analyticsmicroservice
     build:
       context: "IoTS2021/IoTS Microservice Project/AnalyticsMicroservice"
       dockerfile: AnalyticsMicroservice/Dockerfile
+  cassandra-command:
+    image: cassandra
+    hostname: "cassandra-command"
+    ports:
+      - "9045:9042"
   commandmicroservice:
     image: ${DOCKER_REGISTRY-}commandmicroservice
     build:

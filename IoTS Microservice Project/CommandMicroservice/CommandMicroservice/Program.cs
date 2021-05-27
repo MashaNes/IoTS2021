@@ -18,7 +18,9 @@ namespace CommandMicroservice
         {
             Thread.Sleep(TimeSpan.FromSeconds(40));
             IUnitOfWork unitOfWork = new UnitOfWork();
-            INotifyService notify = new NotifyService(unitOfWork);
+            ICassandraService cassandraService = new CassandraService(unitOfWork);
+            IMessageService messageService = new MessageService(unitOfWork);
+            INotifyService notify = new NotifyService(unitOfWork, messageService, cassandraService);
             IConsumerService consumer = new ConsumerService(unitOfWork, notify);
             consumer.Consume();
             CreateHostBuilder(args).Build().Run();

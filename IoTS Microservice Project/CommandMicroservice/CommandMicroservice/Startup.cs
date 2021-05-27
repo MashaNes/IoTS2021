@@ -30,7 +30,9 @@ namespace CommandMicroservice
             services.AddSingleton<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IRegistrationService, RegistrationService>();
             services.AddTransient<INotifyService, NotifyService>();
-            //services.AddHostedService<ConsumerService>();
+            services.AddTransient<IMessageService, MessageService>();
+            services.AddTransient<IDataService, DataService>();
+            services.AddTransient<ICassandraService, CassandraService>();
             services.AddControllers();
             services.AddCors(options =>
             {
