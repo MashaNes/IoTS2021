@@ -1,0 +1,17 @@
+create keyspace event_action_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use event_action_data;
+
+create table events
+("DataInfluenced" VARCHAR,
+"EventType" VARCHAR,
+"Value" DOUBLE,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"Timestamp" TIMESTAMP,
+"StationName" VARCHAR,
+"Command" VARCHAR,
+"Args" VARCHAR,
+PRIMARY KEY("Timestamp", "Latitude", "Longitude", "EventType")
+);

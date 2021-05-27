@@ -1,0 +1,15 @@
+create keyspace road_data
+with replication = {'class':'SimpleStrategy','replication_factor':1};
+
+use road_data;
+
+create table temp_condition
+("Timestamp" TIMESTAMP,
+"RecordId" INT,
+"StationName" VARCHAR,
+"Latitude" DOUBLE,
+"Longitude" DOUBLE,
+"AirTemperature" DOUBLE,
+"RoadTemperature" DOUBLE,
+PRIMARY KEY("Timestamp", "StationName")
+);
