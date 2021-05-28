@@ -11,6 +11,7 @@ namespace DataMicroservice.Contracts
     {
         Task<bool> AddData(RoadAndAirTempData newData);
         Task<List<RoadAndAirTempData>> GetAllData();
+        Task<List<RoadAndAirTempData>> GetNewest();
         Task<RoadAndAirTempData> GetDataByRecordId(int recordId);
         Task<List<RoadAndAirTempData>> GetDataByStationName(String StationName, bool Newest);
         Task<List<RoadAndAirTempData>> GetDataByTimestamp(String StationName, DateTime time, int seconds);

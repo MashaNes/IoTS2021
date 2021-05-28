@@ -11,8 +11,10 @@ namespace AnalyticsMicroservice.Contracts
         ISession CassandraSession { get; }
         IModel RabbitMQInputChannel { get; }
         IModel RabbitMQOutputChannel { get; }
+        IModel RabbitMQCEPChannel { get; }
         string EventTable { get; }
         string RabbitMQInputQueue { get; }
         string RabbitMQOutputQueue { get; }
+        string RabbitMQCEPQueue { get; }
     }
 }

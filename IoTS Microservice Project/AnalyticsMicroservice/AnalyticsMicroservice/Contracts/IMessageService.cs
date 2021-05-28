@@ -7,6 +7,7 @@ namespace AnalyticsMicroservice.Contracts
 {
     public interface IMessageService
     {
-        void Enqueue(TemperatureEvent data);
+        void EnqueueOutput(TemperatureEvent data);
+        void EnqueueCEP(RoadAndAirTempData data);
     }
 }

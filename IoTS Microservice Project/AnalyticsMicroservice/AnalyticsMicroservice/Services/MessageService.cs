@@ -14,7 +14,7 @@ namespace AnalyticsMicroservice.Services
             this._unitOfWork = unitOfWork;
         }
 
-        public void Enqueue(TemperatureEvent data)
+        public void EnqueueOutput(TemperatureEvent data)
         {
             string body = JsonSerializer.Serialize(data);
             _unitOfWork.RabbitMQOutputChannel.BasicPublish(exchange: "",
@@ -22,6 +22,16 @@ namespace AnalyticsMicroservice.Services
                                                            mandatory: true,
                                                            basicProperties: null,
                                                            body: Encoding.UTF8.GetBytes(body));
+        }
+
+        public void EnqueueCEP(RoadAndAirTempData data)
+        {
+            string body = JsonSerializer.Serialize(data);
+            _unitOfWork.RabbitMQCEPChannel.BasicPublish(exchange: "",
+                                                        routingKey: _unitOfWork.RabbitMQCEPQueue,
+                                                        mandatory: true,
+                                                        basicProperties: null,
+                                                        body: Encoding.UTF8.GetBytes(body));
         }
     }
 }

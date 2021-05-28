@@ -35,8 +35,8 @@ namespace CommandMicroservice.Services
                 _notifyService.NotifyClient(data);
             };
             _unitOfWork.RabbitMQChannel.BasicConsume(queue: _unitOfWork.RabbitMQQueue,
-                                                            autoAck: true,
-                                                            consumer: Consumer);
+                                                     autoAck: true,
+                                                     consumer: Consumer);
         }
     }
 }

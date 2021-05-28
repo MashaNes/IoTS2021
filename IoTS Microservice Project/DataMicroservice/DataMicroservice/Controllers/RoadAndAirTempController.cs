@@ -38,6 +38,14 @@ namespace DataMicroservice.Controllers
         }
 
         [HttpGet]
+        [Route("get-newest")]
+        public async Task<ActionResult> GetNewest()
+        {
+            List<RoadAndAirTempData> retVal = await _tempService.GetNewest();
+            return Ok(retVal);
+        }
+
+        [HttpGet]
         [Route("get-data-recordId/{RecordId}")]
         public async Task<ActionResult> GetData(int RecordId)
         {

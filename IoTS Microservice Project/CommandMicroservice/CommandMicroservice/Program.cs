@@ -16,7 +16,7 @@ namespace CommandMicroservice
     {
         public static void Main(string[] args)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(40));
+            Thread.Sleep(TimeSpan.FromSeconds(50));
             IUnitOfWork unitOfWork = new UnitOfWork();
             ICassandraService cassandraService = new CassandraService(unitOfWork);
             IMessageService messageService = new MessageService(unitOfWork);

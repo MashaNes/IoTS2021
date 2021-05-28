@@ -11,10 +11,12 @@ namespace DataMicroservice.Services
     public class CassandraService : ICassandraService
     {
         private readonly IDateService _dateService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public CassandraService(IDateService dateService)
+        public CassandraService(IDateService dateService, IUnitOfWork unitOfWork)
         {
             this._dateService = dateService;
+            this._unitOfWork = unitOfWork;
         }
 
         public RoadAndAirTempData ConvertCassandraTempRow(Row instance)
@@ -30,12 +32,12 @@ namespace DataMicroservice.Services
             return roadInfo;
         }
 
-        public string InsertRoadAndAirTempDataQuery(string table, RoadAndAirTempData data)
+        public void InsertRoadAndAirTempDataQuery(string table, RoadAndAirTempData data)
         {
             string command = "insert into " + table + " (\"Timestamp\", \"StationName\", \"AirTemperature\", \"Latitude\", \"Longitude\", \"RecordId\", \"RoadTemperature\")";
             command += "values ('" + _dateService.ConvertDateToString(data.Timestamp) + "', '" + data.StationName + "', " + data.AirTemperature + ", " + data.Latitude + ", " +
                     +data.Longitude + ", " + data.RecordId + ", " + data.RoadTemperature + ");";
-            return command;
+            _unitOfWork.CassandraSession.Execute(command);
         }
 
         public string SelectAllQuery(string table)

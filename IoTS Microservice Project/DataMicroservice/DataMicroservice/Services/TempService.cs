@@ -6,7 +6,6 @@ using DataMicroservice.Contracts;
 using DataMicroservice.Entities;
 using Cassandra;
 using DataMicroservice.DTOs;
-using Geolocation;
 
 namespace DataMicroservice.Services
 {
@@ -29,7 +28,7 @@ namespace DataMicroservice.Services
         {
             newData.RoadTemperature = convertTempFtoC(newData.RoadTemperature);
             newData.AirTemperature = convertTempFtoC(newData.AirTemperature);
-            _unitOfWork.CassandraSession.Execute(_cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TemperatureTable, newData));
+            _cassandraService.InsertRoadAndAirTempDataQuery(_unitOfWork.TemperatureTable, newData);
             _messageService.Enqueue(newData);
             return true;
         }
@@ -43,6 +42,21 @@ namespace DataMicroservice.Services
         {
             var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(_unitOfWork.TemperatureTable));
             return data.Select(instance => _cassandraService.ConvertCassandraTempRow(instance)).ToList();
+        }
+
+        public async Task<List<RoadAndAirTempData>> GetNewest()
+        {
+            var data = _unitOfWork.CassandraSession.Execute(_cassandraService.SelectAllQuery(_unitOfWork.TemperatureTable));
+            Dictionary<string, RoadAndAirTempData> newest = new Dictionary<string, RoadAndAirTempData>();
+            foreach(var instance in data)
+            {
+                RoadAndAirTempData roadData = _cassandraService.ConvertCassandraTempRow(instance);
+                if (!newest.ContainsKey(roadData.StationName))
+                    newest.Add(roadData.StationName, roadData);
+                else if (newest[roadData.StationName].Timestamp < roadData.Timestamp)
+                    newest[roadData.StationName] = roadData;
+            }
+            return newest.Values.ToList();
         }
 
         public async Task<RoadAndAirTempData> GetDataByRecordId(int recordId)

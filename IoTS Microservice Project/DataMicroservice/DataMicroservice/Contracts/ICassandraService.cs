@@ -10,7 +10,7 @@ namespace DataMicroservice.Contracts
     public interface ICassandraService
     {
         RoadAndAirTempData ConvertCassandraTempRow(Row instance);
-        string InsertRoadAndAirTempDataQuery(string table, RoadAndAirTempData data);
+        void InsertRoadAndAirTempDataQuery(string table, RoadAndAirTempData data);
         string SelectAllQuery(string table);
         string SelectWhereQuery(string table, string parameter, string value);
         string SelectTimeframeQuery(string table, DateTime low, DateTime high);

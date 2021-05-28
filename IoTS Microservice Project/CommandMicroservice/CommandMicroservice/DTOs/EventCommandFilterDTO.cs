@@ -10,7 +10,7 @@ namespace CommandMicroservice.DTOs
     {
         public TimeframeDTO Timeframe { get; set; }
         public string StationName { get; set; }
-        public EventType EventType { get; set; }
-        public DataInfluenced DataInfluenced { get; set; }
+        public EventType? EventType { get; set; }
+        public DataInfluenced? DataInfluenced { get; set; }
     }
 }

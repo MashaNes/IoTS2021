@@ -24,15 +24,17 @@ namespace CommandMicroservice.Services
             eventCommand.ActuationCommand = new ActuationCommand();
             eventCommand.TemperatureEvent.Timestamp = DateTime.Parse(instance["Timestamp"].ToString());
             eventCommand.TemperatureEvent.StationName = instance["StationName"].ToString();
-            eventCommand.TemperatureEvent.DataInfluenced = (DataInfluenced)instance["DataInfluenced"];
+            eventCommand.TemperatureEvent.DataInfluenced = (DataInfluenced)Enum.Parse(typeof(DataInfluenced),instance["DataInfluenced"].ToString());
             eventCommand.TemperatureEvent.Latitude = (double)instance["Latitude"];
             eventCommand.TemperatureEvent.Longitude = (double)instance["Longitude"];
-            eventCommand.TemperatureEvent.EventType = (EventType)instance["EventType"];
+            eventCommand.TemperatureEvent.EventType = (EventType)Enum.Parse(typeof(EventType),instance["EventType"].ToString());
             eventCommand.TemperatureEvent.Value = (double)instance["Value"];
             eventCommand.ActuationCommand.Command = instance["Command"].ToString();
             List<string> args = instance["Args"].ToString().Split("&").ToList();
             eventCommand.ActuationCommand.AdditionalArguments.AddRange(args);
             return eventCommand;
+
+            Enum.Parse(typeof(EventType), "jp");
         }
 
         public void InsertData(EventCommand eventCommand)

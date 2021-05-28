@@ -80,6 +80,34 @@ namespace AnalyticsMicroservice
             }
         }
 
+        private IModel _rabbitMQCEPChannel;
+        public IModel RabbitMQCEPChannel
+        {
+            get
+            {
+                if (this._rabbitMQCEPChannel == null)
+                {
+                    ConnectionFactory factory = new ConnectionFactory()
+                    {
+                        HostName = "rabbitmq",
+                        Port = 5672,
+                        UserName = "guest",
+                        Password = "guest"
+                    };
+
+                    IConnection connection = factory.CreateConnection();
+                    this._rabbitMQCEPChannel = connection.CreateModel();
+                    this._rabbitMQCEPChannel.QueueDeclare(queue: this._rabbitMQCEPQueue,
+                                                          durable: false,
+                                                          exclusive: false,
+                                                          autoDelete: false,
+                                                          arguments: null);
+                }
+
+                return this._rabbitMQCEPChannel;
+            }
+        }
+
         private string _eventTable = "events";
         public string EventTable
         {
@@ -104,6 +132,15 @@ namespace AnalyticsMicroservice
             get
             {
                 return this._rabbitMQOutputQueue;
+            }
+        }
+
+        private string _rabbitMQCEPQueue = "CEP_data";
+        public string RabbitMQCEPQueue
+        {
+            get
+            {
+                return this._rabbitMQCEPQueue;
             }
         }
     }

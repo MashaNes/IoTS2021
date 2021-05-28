@@ -32,11 +32,12 @@ namespace AnalyticsMicroservice.Services
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
                 RoadAndAirTempData data = (RoadAndAirTempData)JsonSerializer.Deserialize(message, typeof(RoadAndAirTempData));
+                _messageService.EnqueueCEP(data);
                 List<TemperatureEvent> events = _analyticsService.AnalyseNewData(data);
                 foreach(TemperatureEvent Event in events)
                 {
                     _cassandraService.InsertData(Event);
-                    _messageService.Enqueue(Event);
+                    _messageService.EnqueueOutput(Event);
                 }
             };
             _unitOfWork.RabbitMQInputChannel.BasicConsume(queue: _unitOfWork.RabbitMQInputQueue,

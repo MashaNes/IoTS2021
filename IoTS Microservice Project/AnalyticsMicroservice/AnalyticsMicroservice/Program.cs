@@ -10,7 +10,7 @@ namespace AnalyticsMicroservice
     {
         static async Task Main(string[] args)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(40));
+            Thread.Sleep(TimeSpan.FromSeconds(60));
             IAnalyticsService analyticsService = new AnalyticsService();
             IUnitOfWork unitOfWork = new UnitOfWork();
             IMessageService messageService = new MessageService(unitOfWork);
