@@ -1,0 +1,221 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "APIGateway",
+    "version": "v1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:49156"
+  } ],
+  "paths": {
+    "/api/command/get-filtered-data": {
+      "post": {
+        "tags": [
+          "Command"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EventCommandFilterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/data/get-newest": {
+      "get": {
+        "tags": [
+          "Data"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/data/get-filtered-station": {
+      "post": {
+        "tags": [
+          "Data"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationFilterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationFilterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/StationFilterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/data/get-filtered-location": {
+      "post": {
+        "tags": [
+          "Data"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationFilterDTO"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationFilterDTO"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/LocationFilterDTO"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "TimeFromToDTO": {
+        "type": "object",
+        "properties": {
+          "From": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "To": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EventType": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "DataInfluenced": {
+        "enum": [
+          0,
+          1
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EventCommandFilterDTO": {
+        "type": "object",
+        "properties": {
+          "Timeframe": {
+            "$ref": "#/components/schemas/TimeFromToDTO"
+          },
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "EventType": {
+            "$ref": "#/components/schemas/EventType"
+          },
+          "DataInfluenced": {
+            "$ref": "#/components/schemas/DataInfluenced"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TimeframeDTO": {
+        "type": "object",
+        "properties": {
+          "Timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Seconds": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StationFilterDTO": {
+        "type": "object",
+        "properties": {
+          "StationName": {
+            "type": "string",
+            "nullable": true
+          },
+          "Timeframe": {
+            "$ref": "#/components/schemas/TimeframeDTO"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LocationFilterDTO": {
+        "type": "object",
+        "properties": {
+          "Latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Longitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "Radius": {
+            "type": "number",
+            "format": "double"
+          },
+          "Newest": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}
