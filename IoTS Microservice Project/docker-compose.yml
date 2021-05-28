@@ -12,22 +12,27 @@ services:
     build: "Python docker/python-sensor-temp/python-sensor-temp-1"
     ports:
       - "5021:5000"
+    hostname: "temp-sensor1"
   temp-sensor2:
     build: "Python docker/python-sensor-temp/python-sensor-temp-2"
     ports:
       - "5022:5000"
+    hostname: "temp-sensor2"
   temp-sensor3:
     build: "Python docker/python-sensor-temp/python-sensor-temp-3"
     ports:
       - "5023:5000"
+    hostname: "temp-sensor3"
   temp-sensor4:
     build: "Python docker/python-sensor-temp/python-sensor-temp-4"
     ports:
       - "5024:5000"
+    hostname: "temp-sensor4"
   temp-sensor5:
     build: "Python docker/python-sensor-temp/python-sensor-temp-5"
     ports:
       - "5025:5000"
+    hostname: "temp-sensor5"
   cassandra-data:
     image: cassandra
     hostname: "cassandra-data"
@@ -66,3 +71,11 @@ services:
     ports:
       - "49155:80"
     hostname: "commandmicroservice"
+  apigateway:
+    image: ${DOCKER_REGISTRY-}apigateway
+    build:
+      context: "IoTS2021/IoTS Microservice Project/APIGateway"
+      dockerfile: APIGateway/Dockerfile
+    ports:
+      - "49156:80"
+    hostname: "apigateway"
