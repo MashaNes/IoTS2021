@@ -23,7 +23,7 @@ namespace CommandMicroservice.Controllers
 
         [HttpPost]
         [Route("add-event")]
-        public async Task<ActionResult> AddEvent([FromBody] SidhhiDTO Event)
+        public async Task<ActionResult> AddEvent([FromBody] SiddhiDTO Event)
         {
             TemperatureEvent temp = new TemperatureEvent(Event.Event);
             Console.WriteLine("Received siddhi");

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CommandMicroservice.DTOs
 {
-    public class SidhhiDTO
+    public class SiddhiDTO
     {
         public EventDTO Event { get; set; }
     }

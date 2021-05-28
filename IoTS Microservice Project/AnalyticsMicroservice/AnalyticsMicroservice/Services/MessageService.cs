@@ -11,7 +11,7 @@ namespace AnalyticsMicroservice.Services
     public class MessageService : IMessageService
     {
         private readonly IUnitOfWork _unitOfWork;
-        private string _sidhhiEndpoint = "/productionStream";
+        private string _siddhiEndpoint = "/productionStream";
 
         public MessageService(IUnitOfWork unitOfWork)
         {
@@ -30,10 +30,10 @@ namespace AnalyticsMicroservice.Services
 
         public async Task SendCEP(RoadAndAirTempData data)
         {
-            SidhhiDTO dto = new SidhhiDTO();
+            SiddhiDTO dto = new SiddhiDTO();
             dto.Event = new RoadAndAirTempDTO(data);
 
-            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.SidhhiLocation + _sidhhiEndpoint,
+            HttpResponseMessage response = await _unitOfWork.HttpClient.PostAsync(_unitOfWork.SiddhiLocation + _siddhiEndpoint,
                                                                                   new StringContent(JsonSerializer.Serialize(dto), Encoding.UTF8, "application/json"));
             await response.Content.ReadAsStreamAsync();
         }

@@ -127,13 +127,13 @@ namespace AnalyticsMicroservice
             }
         }
 
-        private string _sidhhiHost = "http://192.168.0.26";
-        private int _sidhhiPort = 8006;
-        public string SidhhiLocation
+        private string _siddhiHost = "http://192.168.0.26";
+        private int _siddhiPort = 8006;
+        public string SiddhiLocation
         {
             get
             {
-                return _sidhhiHost + ":" + _sidhhiPort;
+                return _siddhiHost + ":" + _siddhiPort;
             }
         }
 

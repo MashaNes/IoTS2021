@@ -5,7 +5,7 @@ using AnalyticsMicroservice.Entities;
 
 namespace AnalyticsMicroservice.DTOs
 {
-    public class SidhhiDTO
+    public class SiddhiDTO
     {
         public RoadAndAirTempDTO Event { get; set; }
     }

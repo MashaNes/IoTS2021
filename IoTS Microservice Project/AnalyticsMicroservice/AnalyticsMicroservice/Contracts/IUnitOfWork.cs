@@ -14,7 +14,7 @@ namespace AnalyticsMicroservice.Contracts
         IModel RabbitMQOutputChannel { get; }
         IModel RabbitMQCEPChannel { get; }
         HttpClient HttpClient { get; }
-        string SidhhiLocation { get; }
+        string SiddhiLocation { get; }
         string EventTable { get; }
         string RabbitMQInputQueue { get; }
         string RabbitMQOutputQueue { get; }
