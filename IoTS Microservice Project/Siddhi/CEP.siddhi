@@ -1,0 +1,54 @@
+@App:name("CEP")
+
+
+
+@Source(type = 'http',
+        receiver.url='http://0.0.0.0:8006/productionStream',
+        basic.auth.enabled='false',
+        @map(type='json'))
+define stream TempProductionStream 
+(
+    RecordId int, 
+    StationName string,
+    Latitude double,
+    Longitude double,
+    Timestamp string,
+    AirTemperature double,
+    RoadTemperature double
+);
+
+@sink(type='http', publisher.url='http://192.168.0.26:49155/api/cep/add-event',
+      method='POST', headers='Content-type:application/json',
+      basic.auth.enabled='false',
+      @map(type='json'))
+define stream OutputStream 
+(
+    DataInfluenced int,
+    EventType int,
+    Value double,
+    Latitude double,
+    Longitude double,
+    Timestamp string,
+    StationName string
+);
+
+
+@info(name='HotRoad')
+from TempProductionStream[RoadTemperature > 30]
+select 0 as DataInfluenced, 0 as EventType, RoadTemperature as Value, Latitude, Longitude, Timestamp, StationName
+insert into OutputStream;
+
+@info(name='HotAir')
+from TempProductionStream[AirTemperature  > 30]
+select 1 as DataInfluenced, 0 as EventType, RoadTemperature as Value, Latitude, Longitude, Timestamp, StationName
+insert into OutputStream;
+
+@info(name='ColdRoad')
+from TempProductionStream[RoadTemperature < 0]
+select 0 as DataInfluenced, 1 as EventType, RoadTemperature as Value, Latitude, Longitude, Timestamp, StationName
+insert into OutputStream;
+
+@info(name='ColdAir')
+from TempProductionStream[AirTemperature  < 0]
+select 1 as DataInfluenced, 1 as EventType, RoadTemperature as Value, Latitude, Longitude, Timestamp, StationName
+insert into OutputStream;
