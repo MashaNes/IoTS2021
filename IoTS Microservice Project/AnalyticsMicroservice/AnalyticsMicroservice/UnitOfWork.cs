@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using AnalyticsMicroservice.Contracts;
 using Cassandra;
@@ -105,6 +107,33 @@ namespace AnalyticsMicroservice
                 }
 
                 return this._rabbitMQCEPChannel;
+            }
+        }
+
+        private HttpClient _httpClient;
+        public HttpClient HttpClient
+        {
+            get
+            {
+                if (this._httpClient is null)
+                {
+                    this._httpClient = new HttpClient();
+                    this._httpClient.DefaultRequestHeaders.Accept.Clear();
+                    this._httpClient.DefaultRequestHeaders.Accept.Add(
+                        new MediaTypeWithQualityHeaderValue("application/json"));
+                }
+
+                return this._httpClient;
+            }
+        }
+
+        private string _sidhhiHost = "http://192.168.0.26";
+        private int _sidhhiPort = 8006;
+        public string SidhhiLocation
+        {
+            get
+            {
+                return _sidhhiHost + ":" + _sidhhiPort;
             }
         }
 

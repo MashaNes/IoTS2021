@@ -25,7 +25,6 @@ namespace CommandMicroservice.Controllers
         [Route("add-event")]
         public async Task<ActionResult> AddEvent([FromBody] SidhhiDTO Event)
         {
-            Console.WriteLine(Event.Event.ToString());
             TemperatureEvent temp = new TemperatureEvent(Event.Event);
             Console.WriteLine("Received siddhi");
             await _notifyService.NotifyClient(temp);

@@ -14,17 +14,5 @@ namespace CommandMicroservice.DTOs
         public double Longitude { get; set; }
         public string Timestamp { get; set; }
         public string StationName { get; set; }
-
-        public override string ToString()
-        {
-            string desc = "DataInfluenced: " + DataInfluenced + "/n"
-                        + "EventType: " + EventType + "/n"
-                        + "Value: " + Value + "/n"
-                        + "Latitude: " + Latitude + "/n"
-                        + "Longitude: " + Longitude + "/n"
-                        + "Timestamp: " + Timestamp + "/n"
-                        + "StationName: " + StationName + "/n";
-            return desc;
-        }
     }
 }

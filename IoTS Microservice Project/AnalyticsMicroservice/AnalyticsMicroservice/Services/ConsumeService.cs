@@ -32,7 +32,7 @@ namespace AnalyticsMicroservice.Services
                 var body = ea.Body;
                 var message = Encoding.UTF8.GetString(body.ToArray());
                 RoadAndAirTempData data = (RoadAndAirTempData)JsonSerializer.Deserialize(message, typeof(RoadAndAirTempData));
-                _messageService.EnqueueCEP(data);
+                _messageService.SendCEP(data);
                 List<TemperatureEvent> events = _analyticsService.AnalyseNewData(data);
                 foreach(TemperatureEvent Event in events)
                 {
