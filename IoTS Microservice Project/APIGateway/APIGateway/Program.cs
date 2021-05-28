@@ -16,7 +16,7 @@ namespace APIGateway
     {
         public static void Main(string[] args)
         {
-            //Thread.Sleep(TimeSpan.FromSeconds(40));
+            Thread.Sleep(TimeSpan.FromSeconds(50));
             IUnitOfWork unitOfWork = new UnitOfWork();
             IConsumerService consumerService = new ConsumerService(unitOfWork);
             consumerService.Consume();

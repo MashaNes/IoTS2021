@@ -37,7 +37,7 @@ namespace APIGateway
                 {
                     ConnectionFactory factory = new ConnectionFactory()
                     {
-                        HostName = "192.168.0.26",
+                        HostName = "rabbitmq",
                         Port = 5672,
                         UserName = "guest",
                         Password = "guest"
@@ -65,8 +65,8 @@ namespace APIGateway
             }
         }
 
-        private string _commandHost = "http://192.168.0.26";
-        private int _commandPort = 49155;
+        private string _commandHost = "http://commandmicroservice";
+        private int _commandPort = 80; //49155
         public string CommandLocation
         {
             get
@@ -75,8 +75,8 @@ namespace APIGateway
             }
         }
 
-        private string _dataHost = "http://192.168.0.26";
-        private int _dataPort = 49164;
+        private string _dataHost = "http://datamicroservice";
+        private int _dataPort = 80; //49164
         public string DataLocation
         {
             get
