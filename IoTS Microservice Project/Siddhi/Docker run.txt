@@ -1,1 +1,1 @@
-docker run -it -p 8006:8006 -v "absolute path":/apps siddhiio/siddhi-runner-alpine -Dapps=/apps/CEP.siddhi
+docker run -it -p 8006:8006 -v "absolute path to CEP.siddhi":/apps siddhiio/siddhi-runner-alpine -Dapps=/apps/CEP.siddhi
