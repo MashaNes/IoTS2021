@@ -13,7 +13,7 @@ Vue.use(BootstrapVue)
 
 import moment from "moment"
 Vue.filter("showTime", function(date) {
-  return moment(date).format("DD.MM.YYYY")
+  return moment(date).format("DD.MM.YYYY HH:MM:SS")
 })
 
 Vue.config.productionTip = false

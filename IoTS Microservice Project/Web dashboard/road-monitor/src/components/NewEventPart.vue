@@ -37,7 +37,8 @@ export default {
                             Value: "",
                             Latitude: "",
                             Longitude: "",
-                            StationName: ""
+                            StationName: "",
+                            Timestamp: ""
                         }
                     )
             }

@@ -35,7 +35,7 @@ export default({
 
     .part
     {
-        padding-bottom: 30px;
+        padding-bottom: 50px;
         width: 100%;
     }
 </style>

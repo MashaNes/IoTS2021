@@ -5,25 +5,25 @@
             <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Data</th>
-                    <th scope="col">Type</th>
-                    <th scope="col">Value</th>
+                    <th scope="col">Record id</th>
+                    <th scope="col">Station name</th>
                     <th scope="col">Latitude</th>
                     <th scope="col">Longitude</th>
                     <th scope="col">Timestamp</th>
-                    <th scope="col">Station name</th>
+                    <th scope="col">Air temperature</th>
+                    <th scope="col">Road temperature</th>
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(event, i) in events" :key="i">
+                <tr v-for="(temp, i) in temp_data" :key="i">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{event.Data}}</td>
-                    <td>{{event.Type}}</td>
-                    <td>{{event.Value}}</td>
-                    <td>{{event.Latitude}}</td>
-                    <td>{{event.Longitude}}</td>
-                    <td>{{event.Timestamp ? (event.Timestamp | showTime) : ""}}</td>
-                    <td>{{event.StationName}}</td>
+                    <td>{{temp.RecordId}}</td>
+                    <td>{{temp.StationName}}</td>
+                    <td>{{temp.Latitude}}</td>
+                    <td>{{temp.Longitude}}</td>
+                    <td>{{temp.Timestamp | showTime}}</td>
+                    <td>{{temp.AirTemperature}}</td>
+                    <td>{{temp.RoadTemperature}}</td>
                 </tr>
             </tbody>
         </table>
@@ -34,7 +34,7 @@
 export default {
     props:
     {
-        events:
+        temp_data:
         {
             required: true,
             type: Array
