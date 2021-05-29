@@ -8,7 +8,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using APIGateway.Contracts;
 using APIGateway.Services;
+using APIGateway.Services.MessagingService;
 using System.Threading;
+using Microsoft.AspNetCore.SignalR;
 
 namespace APIGateway
 {
@@ -16,10 +18,7 @@ namespace APIGateway
     {
         public static void Main(string[] args)
         {
-            Thread.Sleep(TimeSpan.FromSeconds(50));
-            IUnitOfWork unitOfWork = new UnitOfWork();
-            IConsumerService consumerService = new ConsumerService(unitOfWork);
-            consumerService.Consume();
+            Thread.Sleep(TimeSpan.FromSeconds(60));
             CreateHostBuilder(args).Build().Run();
         }
 

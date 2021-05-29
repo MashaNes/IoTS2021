@@ -12,6 +12,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using APIGateway.Contracts;
 using APIGateway.Services;
+using APIGateway.Services.MessagingService;
 
 namespace APIGateway
 {
@@ -30,6 +31,8 @@ namespace APIGateway
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IDataService, DataService>();
             services.AddTransient<ICommandService, CommandService>();
+            services.AddTransient<IConsumerService, ConsumerService>();
+            services.AddHostedService<MessageControllerService>();
             services.AddControllers();
             services.AddCors(options =>
             {
@@ -37,6 +40,10 @@ namespace APIGateway
                 {
                     builder.AllowAnyHeader().AllowAnyMethod().SetIsOriginAllowed((host) => true).AllowCredentials();
                 });
+            });
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
             });
             services.AddSwaggerGen(c =>
             {
@@ -68,6 +75,7 @@ namespace APIGateway
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MessageHub>("road-monitor-hub");
             });
         }
     }
