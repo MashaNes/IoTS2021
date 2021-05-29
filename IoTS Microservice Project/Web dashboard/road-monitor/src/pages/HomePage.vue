@@ -17,6 +17,47 @@ export default({
         EventPart,
         NewEventPart,
         TempPart
+    },
+    methods:
+    {
+        subscribeToEvents() 
+        {
+            this.$roadMonitorHub.JoinGroup()
+            this.$roadMonitorHub.$on('new_data', this.onNewData)
+            window.addEventListener('beforeunload', this.leavePage)
+        },
+        onNewData(data)
+        {
+            var arg1 = ""
+            var arg2 = ""
+            var x = data.actuationCommand
+            if(x.additionalArguments.length > 0)
+                arg1 = x.additionalArguments[0]  
+            if(x.additionalArguments.length > 1)
+                arg2 = x.additionalArguments[1]
+            this.$store.state.newest_events.unshift(data.temperatureEvent)
+            this.$store.state.newest_commands.unshift({
+                command: x.command,
+                Arg1: arg1,
+                Arg2: arg2
+            })
+        },
+        clearSignalRSubscription() {
+            this.$roadMonitorHub.LeaveGroup()
+            this.$roadMonitorHub.$off('new_data')
+            window.removeEventListener('beforeunload', this.leavePage)
+        },
+        leavePage(event) {
+            event.preventDefault()
+            this.clearSignalRSubscription()
+            event.returnValue = ''
+        }
+    },
+    created() {
+        this.subscribeToEvents()
+    },
+    beforeDestroy() {
+      this.clearSignalRSubscription()
     }
 })
 

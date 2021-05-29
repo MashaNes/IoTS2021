@@ -238,12 +238,12 @@ export default {
 
     .table-part2
     {
-        width: 30%;
+        width: 37%;
     }
 
     .table-part1
     {
-        width: 65%;
+        width: 60%;
     }
 
     .full-width

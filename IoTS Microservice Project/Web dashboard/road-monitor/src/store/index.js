@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import router from "../router/index"
+import roadMonitorHub from "../road-monitor-hub"
 
 Vue.use(Vuex)
+Vue.use(roadMonitorHub)
 
 export default new Vuex.Store({
     state: {
@@ -100,8 +102,18 @@ export default new Vuex.Store({
             }).then(response => {
                 if(response.ok) {
                     response.json().then(data => {
-                        console.log(data)
-                        this.state.query_events = data.map(x => x.TemperatureEvent)
+                        this.state.query_events = data.map(x => 
+                            {
+                                return{
+                                    dataInfluenced : x.TemperatureEvent.DataInfluenced,
+                                    eventType : x.TemperatureEvent.EventType,
+                                    latitude : x.TemperatureEvent.Latitude,
+                                    longitude : x.TemperatureEvent.Longitude,
+                                    stationName : x.TemperatureEvent.StationName,
+                                    timestamp : x.TemperatureEvent.Timestamp,
+                                    value : x.TemperatureEvent.Value
+                                }
+                            })
                         var commands = data.map(x => x.ActuationCommand)
                         this.state.query_commands = commands.map(x =>
                             {
@@ -113,7 +125,7 @@ export default new Vuex.Store({
                                     arg2 = x.AdditionalArguments[1]
 
                                 return {
-                                    Command: x.Command,
+                                    command: x.Command,
                                     Arg1: arg1,
                                     Arg2: arg2
                                 }
@@ -126,7 +138,6 @@ export default new Vuex.Store({
                     console.log(response)
                 }
             })
-            console.log(payload)
         }
     },
     modules: {

@@ -42,6 +42,9 @@ Vue.filter("EventTypeToString", function(eventType) {
     return "Temperature rose"
 })
 
+import roadMonitorHub from './road-monitor-hub'
+Vue.use(roadMonitorHub)
+
 Vue.config.productionTip = false
 
 new Vue({

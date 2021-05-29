@@ -13,7 +13,7 @@
                 <tbody>
                     <tr v-for="(command, i) in commands" :key="i">
                         <th scope="row">{{i+1}}</th>
-                        <td>{{command.Command}}</td>
+                        <td>{{command.command}}</td>
                         <td>{{command.Arg1}}</td>
                         <td>{{command.Arg2}}</td>
                     </tr>

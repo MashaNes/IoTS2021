@@ -17,13 +17,13 @@
             <tbody>
                 <tr v-for="(event, i) in events" :key="i">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{event.DataInfluenced | DataInfluencedToString}}</td>
-                    <td>{{event.EventType | EventTypeToString}}</td>
-                    <td>{{event.Value}}</td>
-                    <td>{{event.Latitude}}</td>
-                    <td>{{event.Longitude}}</td>
-                    <td>{{event.Timestamp | showTime}}</td>
-                    <td>{{event.StationName}}</td>
+                    <td>{{event.dataInfluenced | DataInfluencedToString}}</td>
+                    <td>{{event.eventType | EventTypeToString}}</td>
+                    <td>{{event.value == "" ? "" : event.value.toFixed(2)}}</td>
+                    <td>{{event.latitude == "" ? "" : event.latitude.toFixed(10)}}</td>
+                    <td>{{event.longitude == "" ? "" : event.longitude.toFixed(10)}}</td>
+                    <td>{{event.timestamp | showTime}}</td>
+                    <td>{{event.stationName}}</td>
                 </tr>
             </tbody>
         </table>

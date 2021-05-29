@@ -32,13 +32,13 @@ export default {
                 else
                     result.push(
                         {
-                            DataInfluenced : -1,
-                            EventType: -1,
-                            Value: "",
-                            Latitude: "",
-                            Longitude: "",
-                            StationName: "",
-                            Timestamp: null
+                            dataInfluenced : -1,
+                            eventType: -1,
+                            value: "",
+                            latitude: "",
+                            longitude: "",
+                            stationName: "",
+                            timestamp: null
                         }
                     )
             }
@@ -52,22 +52,12 @@ export default {
             {
                 if(i < commands.length)
                 {
-                    var arg1 = ""
-                    var arg2 = ""
-                    if(commands[i].AdditionalArguments.length > 0)
-                        arg1 = commands[i].AdditionalArguments[0]  
-                    if(commands[i].AdditionalArguments.length > 1)
-                        arg2 = commands[i].AdditionalArguments[1]  
-                    result.push({
-                        Command: commands[i].Command,
-                        Arg1: arg1,
-                        Arg2: arg2
-                    })
+                   result.push(commands[i])
                 }
                 else
                     result.push(
                         {
-                            Command : "",
+                            command : "",
                             Arg1: "",
                             Arg2: ""
                         }
@@ -95,11 +85,11 @@ export default {
 
     .table-part2
     {
-        width: 30%;
+        width: 37%;
     }
 
     .table-part1
     {
-        width: 65%;
+        width: 60%;
     }
 </style>
