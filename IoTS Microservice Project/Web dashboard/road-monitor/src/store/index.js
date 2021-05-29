@@ -87,6 +87,46 @@ export default new Vuex.Store({
                     console.log(response)
                 }
             })
+        },
+        getEventCommandData({commit}, payload)
+        {
+            fetch("http://"+this.state.backend_host+":"+this.state.backend_port+"/api/command/get-filtered-data", {
+                method: 'POST',
+                mode: "cors",
+                headers: {
+                    "Content-type" : "application/json"
+                },
+                body: JSON.stringify(payload)
+            }).then(response => {
+                if(response.ok) {
+                    response.json().then(data => {
+                        console.log(data)
+                        this.state.query_events = data.map(x => x.TemperatureEvent)
+                        var commands = data.map(x => x.ActuationCommand)
+                        this.state.query_commands = commands.map(x =>
+                            {
+                                var arg1 = ""
+                                var arg2 = ""
+                                if(x.AdditionalArguments.length > 0)
+                                    arg1 = x.AdditionalArguments[0]  
+                                if(x.AdditionalArguments.length > 1)
+                                    arg2 = x.AdditionalArguments[1]
+
+                                return {
+                                    Command: x.Command,
+                                    Arg1: arg1,
+                                    Arg2: arg2
+                                }
+                            })
+                        this.state.is_event_command_data_loaded = true
+                    })
+                }
+                else {
+                    this.state.is_event_command_data_loaded = true
+                    console.log(response)
+                }
+            })
+            console.log(payload)
         }
     },
     modules: {

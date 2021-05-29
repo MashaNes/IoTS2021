@@ -32,13 +32,13 @@ export default {
                 else
                     result.push(
                         {
-                            Data : "",
-                            Type: "",
+                            DataInfluenced : -1,
+                            EventType: -1,
                             Value: "",
                             Latitude: "",
                             Longitude: "",
                             StationName: "",
-                            Timestamp: ""
+                            Timestamp: null
                         }
                     )
             }
@@ -95,11 +95,11 @@ export default {
 
     .table-part2
     {
-        width: 44%;
+        width: 30%;
     }
 
     .table-part1
     {
-        width: 53%;
+        width: 65%;
     }
 </style>

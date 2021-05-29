@@ -13,7 +13,33 @@ Vue.use(BootstrapVue)
 
 import moment from "moment"
 Vue.filter("showTime", function(date) {
+  if(date == null)
+    return ""
   return moment(date).format("DD.MM.YYYY HH:MM:SS")
+})
+
+Vue.filter("DataInfluencedToString", function(dataInfluenced) {
+  if(dataInfluenced == -1)
+    return ""
+  else if(dataInfluenced == 0)
+    return "Road temperature"
+  else
+    return "Air temperature"
+})
+
+Vue.filter("EventTypeToString", function(eventType) {
+  if(eventType == -1)
+    return ""
+  else if(eventType == 0)
+    return "Hot alert"
+  else if (eventType == 1)
+    return "Cold alert"
+  else if (eventType == 2)
+    return "Temperature normal"
+  else if (eventType == 3)
+    return "Temperature dropped"
+  else
+    return "Temperature rose"
 })
 
 Vue.config.productionTip = false

@@ -17,12 +17,12 @@
             <tbody>
                 <tr v-for="(event, i) in events" :key="i">
                     <th scope="row">{{i+1}}</th>
-                    <td>{{event.Data}}</td>
-                    <td>{{event.Type}}</td>
+                    <td>{{event.DataInfluenced | DataInfluencedToString}}</td>
+                    <td>{{event.EventType | EventTypeToString}}</td>
                     <td>{{event.Value}}</td>
                     <td>{{event.Latitude}}</td>
                     <td>{{event.Longitude}}</td>
-                    <td>{{event.Timestamp ? (event.Timestamp | showTime) : ""}}</td>
+                    <td>{{event.Timestamp | showTime}}</td>
                     <td>{{event.StationName}}</td>
                 </tr>
             </tbody>
