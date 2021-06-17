@@ -15,7 +15,7 @@ import moment from "moment"
 Vue.filter("showTime", function(date) {
   if(date == null)
     return ""
-  return moment(date).format("DD.MM.YYYY HH:MM:SS")
+  return moment(date).format("DD.MM.YYYY HH:mm:ss")
 })
 
 Vue.filter("DataInfluencedToString", function(dataInfluenced) {

@@ -35,6 +35,7 @@ export default({
                 arg1 = x.additionalArguments[0]  
             if(x.additionalArguments.length > 1)
                 arg2 = x.additionalArguments[1]
+            data.temperatureEvent.timestamp += "+00:00"
             this.$store.state.newest_events.unshift(data.temperatureEvent)
             this.$store.state.newest_commands.unshift({
                 command: x.command,
