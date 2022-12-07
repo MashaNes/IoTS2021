@@ -1,6 +1,11 @@
 # IoTS Microservice Project
 This folder holds an IoTS, microservice oriented application for road condition monitoring.
 <br/>
+The architecture of the system is shown bellow:  
+<br/>
+![architecture image](https://github.com/MashaNes/IoTS2021/blob/main/IoTS%20Microservice%20Project/Architecture.png)  
+<br/>
+<br/>
 <br/>
 "docker-compose.yml" file should be placed in a directory above the cloned repository. In that directory a "Python docker" subdirectory should be created, with the following structure:  
  <br/>
