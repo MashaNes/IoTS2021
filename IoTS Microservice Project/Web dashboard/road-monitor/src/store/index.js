@@ -15,7 +15,7 @@ export default new Vuex.Store({
         query_events: [],
         is_temp_data_loaded: true,
         is_event_command_data_loaded: true,
-        backend_host: "192.168.0.26",
+        backend_host: "10.66.184.236",
         backend_port: "49156"
     },
     getters: {

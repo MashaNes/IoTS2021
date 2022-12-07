@@ -11,7 +11,7 @@ export default {
   
       Vue.prototype.startSignalR = () => {
         connection = new HubConnectionBuilder()
-          .withUrl("http://192.168.0.26:49156/road-monitor-hub")
+          .withUrl("http://10.66.184.236:49156/road-monitor-hub")
           .configureLogging(LogLevel.Debug)
           .build()
   
